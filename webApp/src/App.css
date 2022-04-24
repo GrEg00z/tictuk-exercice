@@ -2,17 +2,25 @@
   margin-left: 15px;
 }
 
+.autocomplete-container {
+  width: 260px;
+}
+
 .result-container {
   max-height: 254px;
-  width: 222px;
+  width: 260px;
   margin-top: 0px;
   list-style: none;
   overflow-y: auto;
   overflow-x: hidden;
+  position: absolute;
+  background-color: white;
+  z-index: 2
 }
 
 .result-container span {
-  width: 220px;
+  width: 240px;
+  padding-right: 18px;
   display: list-item;
   border-left: solid 1px silver;
   border-right: solid 1px silver;

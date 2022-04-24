@@ -17,17 +17,17 @@ function Autocomplete(props) {
   }
 
   const loadData = (result) => {
-    setResult(result.length > 0 ? result : [{name : "no result found"}]);
+    setResult(result.length > 0 ? result : [{name : "No result found"}]);
   }
 
   return (
-    <div className="App" style={{marginTop : "15px"}}>
-      <TextField id="outlined-basic" label="Search..." variant="outlined" onChange={handleChange} onBlur={() => setResult([])} />
-        <div className="result-container">
-          {result.map((value) => {
-            return <span key={value.name}>{value.name}</span>
-          })}
-        </div>
+    <div className="autocomplete-container">
+      <TextField fullWidth id="outlined-basic" label="Search..." variant="outlined" onChange={handleChange} onBlur={() => setResult([])} />
+      <div className="result-container">
+        {result.map((value) => {
+          return <span key={value.name}>{value.name}</span>
+        })}
+      </div>
     </div>
   );
 }
