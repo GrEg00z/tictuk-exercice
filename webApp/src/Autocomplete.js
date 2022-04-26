@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 
 function Autocomplete(props) {
@@ -21,15 +22,50 @@ function Autocomplete(props) {
   }
 
   return (
-    <div className="autocomplete-container">
+    <Container>
       <TextField fullWidth id="outlined-basic" label="Search..." variant="outlined" onChange={handleChange} onBlur={() => setResult([])} />
-      <div className="result-container">
+      <ResultContainer>
         {result.map((value) => {
-          return <span key={value.name}>{value.name}</span>
+          return <ResultItem key={value.name}>{value.name}</ResultItem>
         })}
-      </div>
-    </div>
+      </ResultContainer> 
+    </Container>
   );
 }
 
 export default Autocomplete;
+
+
+// Styled components
+
+const Container = styled.div`
+  width: 260px;
+`;
+
+const ResultContainer = styled.div`
+  max-height: 254px;
+  width: 260px;
+  margin-top: 0px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+`;
+
+const ResultItem = styled.span`
+  width: 240px;
+  padding-right: 18px;
+  display: list-item;
+  list-style: none;
+  border-left: solid 1px silver;
+  border-right: solid 1px silver;
+
+  &:hover {
+    background-color: #c0c0c0;
+  }
+
+  &:last-child {
+    border-bottom: solid 1px silver;
+  }
+`;

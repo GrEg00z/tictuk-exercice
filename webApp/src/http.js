@@ -1,46 +1,10 @@
 import fetch from 'cross-fetch';
 
 export async function Get(url) {
-  return fetch(url)
-    .then(res => {
-      return handleResult(res)
-    })
-    .catch(error => {
-      return { error };
-    })
-}
-
-export async function Post(url, requestOption, returningFileName) {
-  return fetch(url, requestOption)
-    .then(res => {
-      if(returningFileName)
-        return downloadFile(res, returningFileName)
-      else
-        return handleResult(res)
-    })
-    .catch(error => {
-      return { error };
-    })
-}
-
-export async function Put(url, requestOption) {
-  return fetch(url, requestOption)
-    .then(res => {
-      return handleResult(res)
-    })
-    .catch(error => {
-      return { error };
-    })
-}
-
-export async function Delete(url, requestOption) {
-  return fetch(url, requestOption)
-    .then(res => {
-      return handleResult(res)
-    })
-    .catch(error => {
-      return { error };
-    })
+  let res = await fetch(url);
+  return handleResult(res).catch(error => {
+    return { error };
+  })
 }
 
 async function handleResult(res) {
@@ -57,18 +21,4 @@ async function handleResult(res) {
       throw new Error(body);
     })
   }
-}
-
-function downloadFile(res, fileName) {
-  res.blob().then((blob) => {
-    var url = window.URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-    a.click();    
-    a.remove();  //afterwards we remove the element again    
-  })
-
-  return res;
 }

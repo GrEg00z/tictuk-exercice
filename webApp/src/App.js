@@ -5,10 +5,9 @@ import './App.css';
 
 function App() {
 
-  const loadData = (value, callback) => {
-    Get("http://localhost:3002/search/" + value).then((result) => {
-      callback(result);
-    })
+  const loadData = async(value, callback) => {
+    let result = await Get("http://localhost:3002/search/" + value);
+    callback(result)
   }
 
   return (

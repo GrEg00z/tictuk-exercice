@@ -2,38 +2,6 @@
   margin-left: 15px;
 }
 
-.autocomplete-container {
-  width: 260px;
-}
-
-.result-container {
-  max-height: 254px;
-  width: 260px;
-  margin-top: 0px;
-  list-style: none;
-  overflow-y: auto;
-  overflow-x: hidden;
-  position: absolute;
-  background-color: white;
-  z-index: 2
-}
-
-.result-container span {
-  width: 240px;
-  padding-right: 18px;
-  display: list-item;
-  border-left: solid 1px silver;
-  border-right: solid 1px silver;
-}
-
-.result-container span:hover {
-  background-color: #c0c0c0;
-}
-
-.result-container span:last-child {
-  border-bottom: solid 1px silver;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
