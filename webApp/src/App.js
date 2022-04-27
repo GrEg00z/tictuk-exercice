@@ -12,7 +12,11 @@ function App() {
   return (
     <>
       <Autocomplete loadOptions={loadData} label="Search a country" />
-      <Autocomplete loadOptions={loadData} label="Search a second country" />
+      <Autocomplete 
+        loadOptions={loadData} 
+        label="Search country with onChange" 
+        onChange={(item) => {alert("You selected country '" + item.name + "'")}} 
+      />
       <Autocomplete label="Search without options" />
       <Autocomplete loadOptions={loadData} label="Search with wrong prop name" propertyName="test" />
     </>

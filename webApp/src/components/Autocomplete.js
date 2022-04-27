@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 
-function Autocomplete({loadOptions, label = "Search", propertyName = "name"}) {
+function Autocomplete({loadOptions, onChange, label = "Search", propertyName = "name"}) {
 
   const container = useRef(null);
 
@@ -29,7 +29,7 @@ function Autocomplete({loadOptions, label = "Search", propertyName = "name"}) {
   }, [handleOutsideClick])
 
   const handleChange = (event) => {
-    let input = event.target.value;
+    let input = event.target.value.trimStart();
     setInputValue(input)
     setItemSelected(false);
 
@@ -57,6 +57,9 @@ function Autocomplete({loadOptions, label = "Search", propertyName = "name"}) {
     setInputValue(item[propertyName]);
     setItemSelected(true);
     setResult([]);
+
+    if(onChange)
+      onChange(item);
   }
 
   return (
