@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express()
 const port = 3002
-const data = require('./data.json')
+
+const {listByName} = require('./controllers/countriesController')
 
 app.use(function (req, res, next) {
 
@@ -26,12 +27,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/search/:input', (req, res) => {
-  console.log("req : ", req.params.input)
-  let input = req.params.input.toLowerCase();
-  res.send(data.filter(d => d.name.toLowerCase().includes(input)))
-})
+app.get('/countries/byName/:input', listByName)
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`App listening on port ${port}`)
 })
