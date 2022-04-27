@@ -15,7 +15,9 @@ function App() {
       <Autocomplete 
         loadOptions={loadData} 
         label="Search country with onChange" 
-        onChange={(item) => {alert("You selected country '" + item.name + "'")}} 
+        onChange={(item) => {
+          alert(item ? "You selected country '" + item.name + "'" : "You removed the selected country")
+        }} 
       />
       <Autocomplete label="Search without options" />
       <Autocomplete loadOptions={loadData} label="Search with wrong prop name" propertyName="test" />

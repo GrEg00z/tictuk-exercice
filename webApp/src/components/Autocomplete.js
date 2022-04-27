@@ -5,21 +5,21 @@ import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Autocomplete({loadOptions, onChange, label = "Search", propertyName = "name"}) {
 
   const container = useRef(null);
-
   const [inputValue, setInputValue] = useState("");
-  const [result, setResult] = useState([]);
-  const [itemSelected, setItemSelected] = useState(false);
+  const [result, setResult] = useState(null);
+  const [itemSelected, setItemSelected] = useState(null);
 
   const handleOutsideClick = useCallback((e) => {
-    if (!container.current.contains(e.target)){
-      setResult([]);
-      !itemSelected && setInputValue("");
+    if (!container.current.contains(e.target)) {
+      setResult(null);
+      setInputValue(itemSelected ? itemSelected[propertyName] : "");
     }
-  }, [itemSelected])
+  }, [itemSelected, propertyName])
 
   useEffect(() => {
     window.addEventListener('click', handleOutsideClick);
@@ -31,11 +31,11 @@ function Autocomplete({loadOptions, onChange, label = "Search", propertyName = "
   const handleChange = (event) => {
     let input = event.target.value.trimStart();
     setInputValue(input)
-    setItemSelected(false);
 
     // if input is empty
     if(input.length === 0) {
-      setResult([]);
+      setResult(null);
+      setItemSelected(null);
       return false;
     }
 
@@ -55,11 +55,19 @@ function Autocomplete({loadOptions, onChange, label = "Search", propertyName = "
 
   const onItemClick = (item) => {
     setInputValue(item[propertyName]);
-    setItemSelected(true);
-    setResult([]);
+    setItemSelected(item);
+    setResult(null);
 
     if(onChange)
       onChange(item);
+  }
+
+  const onItemRemove = () => {
+    setInputValue("");
+    setItemSelected(null);
+
+    if(onChange)
+      onChange(null);
   }
 
   return (
@@ -71,18 +79,27 @@ function Autocomplete({loadOptions, onChange, label = "Search", propertyName = "
         label={label}
         variant="outlined" 
         onChange={handleChange}
+        autoComplete="off"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
               <SearchIcon />
             </InputAdornment>
           ),
+          endAdornment: (
+              <InputAdornment position="end">
+                {itemSelected && <Remover onClick={onItemRemove}></Remover>}
+              </InputAdornment>
+          )
         }}
       />
       <ResultContainer>
-        {result.map((item) => {
+        {result && result.map((item) => {
           return <ResultItem key={item[propertyName]} onClick={() => onItemClick(item)}>{item[propertyName]}</ResultItem>
         })}
+        {result && result.length === 0 &&
+          <ResultItem>No options</ResultItem>
+        }
       </ResultContainer>
     </Container>
   );
@@ -110,22 +127,29 @@ const ResultContainer = styled.div`
   position: absolute;
   background-color: white;
   z-index: 2;
+  border-radius: 4px;
+  box-shadow: 0px 2px 1px -1px rgb(0, 0, 0, 0.2), 0px 1px 1px 0px rgb(0, 0, 0, 0.14), 0px 1px 3px 0px rgb(0, 0, 0, 0.12);
 `;
 
 const ResultItem = styled.span`
-  width: 240px;
-  padding-right: 18px;
+  width: 237px;
+  padding: 6px 18px 6px 3px;
   display: list-item;
   list-style: none;
-  border-left: solid 1px silver;
-  border-right: solid 1px silver;
+  cursor: pointer;
 
   &:hover {
-    background-color: #c0c0c0;
+    background-color: rgba(0, 0, 0, 0.04);
   }
+`;
 
-  &:last-child {
-    border-bottom: solid 1px silver;
+const Remover = styled(CloseIcon)`
+  cursor: pointer;
+  font-size: 20px !important;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-radius : 50%;
   }
 `;
 
